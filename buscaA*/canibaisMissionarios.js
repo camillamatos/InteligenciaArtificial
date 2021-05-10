@@ -8,7 +8,6 @@ const inicio = {
 const final = {
  parent: null,
  children: [],
- distanceInicial: 6,
  state: [0,0,0,3,3,1]
 }
 
@@ -20,7 +19,7 @@ const possibleStates = [
   [0,2],
 ]
 
-let nodoPercorrido = []
+let visitedNode = []
 let result
 
 function transform(e){
@@ -51,7 +50,7 @@ function hammingDistance(a, b) {
 }
 
 function validState(currentState){ //verificar se o estado é valido e se ainda não foi percorrido
-  if(nodoPercorrido.includes(currentState.toString()))return false
+  if(visitedNode.includes(currentState.toString()))return false
 
   if((currentState[0] < currentState[1] && currentState[0] != 0) || (currentState[3] < currentState[4] && currentState[3] != 0)) return false
 
@@ -85,9 +84,7 @@ function nextState(currentState, next){
     children: []
   }
 
-  if(!validState(nextNode.state)) return currentState
-
-  currentState.children.push(nextNode)
+  if(validState(nextNode.state)) currentState.children.push(nextNode)
   return currentState 
 }
 
@@ -98,7 +95,6 @@ function print(finalState){
   
   print(finalState.parent)
 }
-
 
 function createNode(node){
   const t1 = nextState(node, possibleStates[0])
@@ -112,12 +108,11 @@ function createNode(node){
       return a
     })
 
-  nodoPercorrido.push(next.state.toString())
+  visitedNode.push(next.state.toString())
 
   if(next.state.toString() == final.state.toString()) return print(next)
  
   return createNode(next)
-  
 }
 
 createNode(inicio)
