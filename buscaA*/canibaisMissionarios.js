@@ -18,7 +18,6 @@ const possibleStates = [
   [1,0],
   [2,0],
   [0,2],
-  
 ]
 
 let nodoPercorrido = []
@@ -93,7 +92,7 @@ function nextState(currentState, next){
 }
 
 function print(finalState){
-  result = `${finalState.state[0]}m ${finalState.state[1]}c ||||| ${finalState.state[3]}m ${finalState.state[4]}c \n` + (result || '')
+  result = `${finalState.state[0]}m ${finalState.state[1]}c ${finalState.state[2] == 1 ? ' \uD83D\uDEF6....... ' : ' .......\uD83D\uDEF6 '} ${finalState.state[3]}m ${finalState.state[4]}c \n` + (result || '')
 
   if(!finalState.parent) return console.log("Resultado da busca  \n\n" + result)
   
