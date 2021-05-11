@@ -99,16 +99,16 @@ function print(finalState){
 }
 
 function createNode(node){
-  const t1 = nextState(node, possibleActions[0])
-  const t2 = nextState(t1, possibleActions[1])
-  const t3 = nextState(t2, possibleActions[2])
-  const t4 = nextState(t3, possibleActions[3])
-  const t5 = nextState(t4, possibleActions[4])
+  let actions = node;
 
-  const next = t5.children.reduce((a, b) => {
-      if(b.totalDistance <= a.totalDistance) a = b
-      return a
-    })
+  possibleActions.forEach(p => {
+    actions = nextState(actions, p)
+  })
+
+  const next = actions.children.reduce((a, b) => {
+    if(b.totalDistance <= a.totalDistance) a = b
+    return a
+  })
 
   visitedNode.push(next.state.toString())
 
