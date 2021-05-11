@@ -11,7 +11,7 @@ const final = {
  state: [0,0,0,3,3,1]
 }
 
-const possibleStates = [
+const possibleActions = [
   [1,1],
   [0,1],
   [1,0],
@@ -21,6 +21,7 @@ const possibleStates = [
 
 let visitedNode = []
 let result
+let prof = 0
 
 function transform(e){
   if(e == 0){
@@ -49,8 +50,8 @@ function hammingDistance(a, b) {
   return distance;
 }
 
-function validState(currentState){ //verificar se o estado é valido e se ainda não foi percorrido
-  if(visitedNode.includes(currentState.toString()))return false
+function validState(currentState){ 
+  if(visitedNode.includes(currentState.toString())) return false
 
   if((currentState[0] < currentState[1] && currentState[0] != 0) || (currentState[3] < currentState[4] && currentState[3] != 0)) return false
 
@@ -91,17 +92,18 @@ function nextState(currentState, next){
 function print(finalState){
   result = `${finalState.state[0]}m ${finalState.state[1]}c ${finalState.state[2] == 1 ? ' \uD83D\uDEF6....... ' : ' .......\uD83D\uDEF6 '} ${finalState.state[3]}m ${finalState.state[4]}c \n` + (result || '')
 
-  if(!finalState.parent) return console.log("Resultado da busca  \n\n" + result)
+  if(!finalState.parent) return console.log(`Resultado da busca (profundidade ${prof}) \n\n` + result)
   
+  prof++
   print(finalState.parent)
 }
 
 function createNode(node){
-  const t1 = nextState(node, possibleStates[0])
-  const t2 = nextState(t1, possibleStates[1])
-  const t3 = nextState(t2, possibleStates[2])
-  const t4 = nextState(t3, possibleStates[3])
-  const t5 = nextState(t4, possibleStates[4])
+  const t1 = nextState(node, possibleActions[0])
+  const t2 = nextState(t1, possibleActions[1])
+  const t3 = nextState(t2, possibleActions[2])
+  const t4 = nextState(t3, possibleActions[3])
+  const t5 = nextState(t4, possibleActions[4])
 
   const next = t5.children.reduce((a, b) => {
       if(b.totalDistance <= a.totalDistance) a = b
