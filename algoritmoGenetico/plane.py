@@ -165,7 +165,7 @@ def main():
                           bounder=ec.Bounder(0, 16000),
                           max_generations=2000,
                           num_inputs= 12,
-                          crossover_rae = 1.0,
+                          crossover_rate = 1.0,
                           num_crossover_points = 1,
                           mutation_rate = 0.6,
                           num_elites = 1,
